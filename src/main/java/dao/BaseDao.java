@@ -22,7 +22,7 @@ public abstract class BaseDao {
 		try {
 			if (con == null) {
 				Class.forName("com.mysql.cj.jdbc.Driver");
-				String url = "jdbc:mysql://localhost/JaniesDB";
+				String url = "jdbc:mysql://localhost/jsysdb";
 				String user = "root";
 				String password = "test";
 				con = DriverManager.getConnection(url, user, password);

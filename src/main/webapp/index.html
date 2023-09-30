@@ -1,28 +1,43 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
-    <title>得意先管理システム</title>
+	<title>得意先管理システム</title>
+
+	<style>
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+		}
+
+		.button-container {
+			text-align: center;
+		}
+
+		.button-container h1 {
+			margin-bottom: 20px;
+		}
+
+		.button-container button {
+			display: block;
+			margin: 10px auto;
+		}
+	</style>
 </head>
+
 <body>
-    <div class="button-container">
-        <h1>得意先管理システム</h1>
+	<div class="button-container">
+		<h1>得意先管理システム</h1>
 
-        <form action="search_customer" method="GET">
-            <button type="submit" class="btn btn-primary">得意先検索</button>
-        </form>
-
-        <form action="register_customer" method="GET">
-            <button type="submit" class="btn btn-success">得意先登録</button>
-        </form>
-
-        <form action="edit_customer" method="GET">
-            <button type="submit" class="btn btn-warning">得意先変更</button>
-        </form>
-
-        <form action="list_customers" method="GET">
-            <button type="submit" class="btn btn-info">得意先一覧</button>
-        </form>
-    </div>
+		<a href="search_customer"><button>得意先検索</button></a>
+		<a href="register_customer"><button>得意先登録</button></a>
+		<a href="edit_customer"><button>得意先変更</button></a>
+		<a href="list_customer"><button>得意先一覧</button></a>
+	</div>
 </body>
+
 </html>

@@ -89,4 +89,11 @@ public class Customer {
 	public void setDeleteFlag(boolean deleteFlag) {
 		this.deleteFlag = deleteFlag;
 	}
+	
+	@Override
+	public String toString() {
+		return "Customer [customerCode=" + customerCode + ", customerName=" + customerName + ", customerTelno="
+				+ customerTelno + ", customerPostalcode=" + customerPostalcode + ", customerAddress=" + customerAddress
+				+ ", discountRate=" + discountRate + ", deleteFlag=" + deleteFlag + "]";
+	}
 }

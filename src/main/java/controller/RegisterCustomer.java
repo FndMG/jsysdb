@@ -1,8 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,7 +30,7 @@ public class RegisterCustomer extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		String buttonId = request.getParameter("button");
 		String nextPage = "confirm.jsp";
-		
+
 		String customerCode = request.getParameter("customerCode");
 		String customerName = request.getParameter("customerName");
 		String customerTelno = request.getParameter("customerTelno");
@@ -48,31 +46,22 @@ public class RegisterCustomer extends HttpServlet {
 		switch (buttonId) {
 		case "input":
 			nextPage = "confirm.jsp";
+			break;
 		case "register":
-		}
-
-
-
-		System.out.println(buttonId);
-
-		try {
-			CustomerDao customerDao = new CustomerDao();
-			Customer customer = new Customer(customerCode, customerName, customerTelno, customerPostalcode,
-					customerAddress,
-					discountRate, false);
-			System.out.println(customer.toString());
-			customerDao.registerCustomer(customer);
-		} catch (JsysException e) {
-			String message = e.getMessage();
-			request.setAttribute("message", message);
-			request.setAttribute("error", "true");
-		} catch (SQLIntegrityConstraintViolationException e) {
-			String message = "コードが重複しています";
-			request.setAttribute("message", message);
-			request.setAttribute("error", "true");
-			nextPage = "register.jsp";
-		} catch (SQLException e) {
-			e.printStackTrace();
+			try {
+				CustomerDao customerDao = new CustomerDao();
+				Customer customer = new Customer(customerCode, customerName, customerTelno, customerPostalcode,
+						customerAddress,
+						discountRate, false);
+				System.out.println(customer.toString());
+				customerDao.registerCustomer(customer);
+			} catch (JsysException e) {
+				String message = e.getMessage();
+				request.setAttribute("message", message);
+				request.setAttribute("error", "true");
+			}
+			nextPage = "result.jsp";
+			break;
 		}
 
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher(nextPage);

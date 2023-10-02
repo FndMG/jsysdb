@@ -17,10 +17,10 @@
 		<h1 class="mb-4">得意先登録</h1>
 
 		<form action="register_customer" method="post">
-			<div class="form-group">
-				<label for="id">コード:</label> <input type="text" name="customerCode"
-					class="form-control" required>
-			</div>
+<!-- 			<div class="form-group"> -->
+<!-- 				<label for="id">コード:</label> <input type="text" name="customerCode" -->
+<!-- 					class="form-control"> -->
+<!-- 			</div> -->
 
 			<div class="form-group">
 				<label for="name">名前:</label> <input type="text" name="customerName"

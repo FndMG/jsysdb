@@ -49,7 +49,7 @@
 
             <p class="mt-4">この内容で登録して良いですか？</p>
             <button type="submit" class="btn btn-primary" name="button" value="register">はい</button>
-            <a href="index.jsp" class="btn btn-secondary">キャンセル</a>
+            <a href="index.html" class="btn btn-secondary">キャンセル</a>
         </form>
     </div>
 

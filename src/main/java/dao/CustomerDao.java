@@ -131,24 +131,24 @@ public class CustomerDao extends BaseDao {
 	}
 
 	protected int incrementNum() throws JsysException {
-	    PreparedStatement ps = null;
+		PreparedStatement ps = null;
 
-	    try {
-	        ps = con.prepareStatement("UPDATE customer_numbering SET customer_code = customer_code + 1;");
-	        int rowCount = ps.executeUpdate();
-	        return rowCount; // 更新された行数を返す
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        throw new JsysException(sql);
-	    } finally {
-	        try {
-	            if (ps != null) {
-	                ps.close();
-	            }
-	        } catch (SQLException e) {
-	            throw new JsysException(sql);
-	        }
-	    }
+		try {
+			ps = con.prepareStatement("UPDATE customer_numbering SET customer_code = customer_code + 1;");
+			int rowCount = ps.executeUpdate();
+			return rowCount; // 更新された行数を返す
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new JsysException(sql);
+		} finally {
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+			} catch (SQLException e) {
+				throw new JsysException(sql);
+			}
+		}
 	}
 
 	public void registerCustomer(Customer customer) throws JsysException {
@@ -196,6 +196,36 @@ public class CustomerDao extends BaseDao {
 		} finally {
 			close();
 		}
+	}
+
+	public Customer findCustomerByCustomerCode(String search) throws JsysException {
+		String sql = "SELECT *	FROM customer WHERE customer_code = ?";
+		Customer customer = null;
+
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setString(1, search);
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				String CustomerCode = rs.getString("customer_code");
+				String customerName = rs.getString("customer_name");
+				String customerTelno = rs.getString("customer_telno");
+				String customerPostalcode = rs.getString("customer_postalcode");
+				String customerAddress = rs.getString("customer_address");
+				int discountRate = rs.getInt("discount_rate");
+				boolean deleteFlag = rs.getBoolean("delete_flag");
+
+				customer = new Customer(CustomerCode, customerName, customerTelno, customerPostalcode,
+						customerAddress, discountRate, deleteFlag);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return customer;
 	}
 
 	public void resetCustomer() throws JsysException, SQLException {

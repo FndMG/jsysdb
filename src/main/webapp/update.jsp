@@ -29,8 +29,8 @@
     <%
         if (customer != null) {
     %>
-    <form action="register_customer2" method="post">
-    <input type="text" name="customerCode" class="form-control" value="<%= customer.getCustomerCode() %>" hidden>
+    <form action="update_customer" method="post">
+    <input type="text" name="customerCode" class="form-control" value="<%= customer.getCustomerCode() %>" readonly>
         <div class="form-group">
             <label for="name">名前:</label>
             <input type="text" name="customerName" class="form-control" value="<%= customer.getCustomerName() %>" required>

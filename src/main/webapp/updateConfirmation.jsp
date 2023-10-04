@@ -15,15 +15,21 @@
 		<h1 class="mt-4">得意先変更確認画面</h1>
 
 		<!-- サーブレットにフォームデータを送信する -->
-		<form action="register_customer" method="post">
+		<form action="update_customer" method="post">
 			<p class="mt-4">以下の内容で変更します。よろしいですか。</p>
 			<table class="table">
+				<tr>
+					<td>得意先コード:</td>
+					<td>${customerCode}</td>
+					<input type="hidden" name="customerCode"
+						value="${param.customerCode}" readonly>
+				</tr>
 				<jsp:include page="customerTable.jsp" />
 			</table>
 
 			<a href="index.html" class="btn btn-secondary">キャンセル</a>
 			<button type="submit" class="btn btn-primary" name="button"
-				value="register">変更する</button>
+				value="update">変更する</button>
 		</form>
 	</div>
 

@@ -10,7 +10,7 @@ import exception.JsysException;
 import model.Customer;
 
 public class CustomerDao extends BaseDao {
-	private String sql = "INSERT INTO Customer (customer_code, customer_name, customer_telno, customer_postalcode, customer_address, discount_rate, delete_flag) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	private String insertSql = "INSERT INTO Customer (customer_code, customer_name, customer_telno, customer_postalcode, customer_address, discount_rate, delete_flag) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 	public CustomerDao() throws JsysException {
 		super();
@@ -139,14 +139,14 @@ public class CustomerDao extends BaseDao {
 			return rowCount; // 更新された行数を返す
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new JsysException(sql);
+			throw new JsysException(insertSql);
 		} finally {
 			try {
 				if (ps != null) {
 					ps.close();
 				}
 			} catch (SQLException e) {
-				throw new JsysException(sql);
+				throw new JsysException(insertSql);
 			}
 		}
 	}
@@ -155,7 +155,7 @@ public class CustomerDao extends BaseDao {
 		String num = generateCustomerCode();
 
 		try {
-			ps = con.prepareStatement(sql);
+			ps = con.prepareStatement(insertSql);
 			ps.setString(1, num);
 			ps.setString(2, customer.getCustomerName());
 			ps.setString(3, customer.getCustomerTelno());
@@ -168,11 +168,39 @@ public class CustomerDao extends BaseDao {
 			incrementNum();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new JsysException(sql);
+			throw new JsysException(insertSql);
 		} finally {
 			close();
 		}
 		return num;
+	}
+
+	public void updateCustomer(Customer customer) throws JsysException {
+		String updateSql = "UPDATE customer\r\n"
+				+ "SET customer_name = ?,\n"
+				+ "    customer_telno = ?,\n"
+				+ "    customer_postalcode = ?,\n"
+				+ "    customer_address = ?,\n"
+				+ "    discount_rate = ?\n"
+				+ "WHERE customer_code = ?;";
+
+		try {
+			ps = con.prepareStatement(updateSql);
+			
+			ps.setString(1, customer.getCustomerName());
+			ps.setString(2, customer.getCustomerTelno());
+			ps.setString(3, customer.getCustomerPostalcode());
+			ps.setString(4, customer.getCustomerAddress());
+			ps.setInt(5, customer.getDiscountRate());
+			ps.setString(6, customer.getCustomerCode());
+
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new JsysException(updateSql);
+		} finally {
+			close();
+		}
 	}
 
 	public void registerCustomer(String customerCode, String customerName, String customerTelno,
@@ -181,7 +209,7 @@ public class CustomerDao extends BaseDao {
 		String num = generateCustomerCode();
 
 		try {
-			ps = con.prepareStatement(sql);
+			ps = con.prepareStatement(insertSql);
 			ps.setString(1, num);
 			ps.setString(2, customerName);
 			ps.setString(3, customerTelno);

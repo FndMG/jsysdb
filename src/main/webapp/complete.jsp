@@ -20,7 +20,7 @@
 				<td>得意先コード:</td>
 				<td>${customerCode}</td>
 				<input type="hidden" name="customerCode"
-					value="${param.customerCode}" readonly>
+					value="${customerCode}" readonly>
 			</tr>
 			<jsp:include page="customerTable.jsp" />
 		</table>

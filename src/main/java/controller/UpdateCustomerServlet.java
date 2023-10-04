@@ -14,14 +14,27 @@ import exception.JsysException;
 import model.Customer;
 
 /**
- * Servlet implementation class RegisterCustomer
+ * Servlet implementation class UpdateCustomer
  */
-@WebServlet("/register_customer2")
-public class UpdateCustomer2 extends HttpServlet {
+@WebServlet("/update_customer")
+public class UpdateCustomerServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("register.jsp");
+		response.setCharacterEncoding("UTF-8");
+		String searchCode = request.getParameter("search");
+
+		if (searchCode != null) {
+			try {
+				CustomerDao customerDao = new CustomerDao();
+				Customer customer = customerDao.findCustomerByCustomerCode(searchCode);
+				request.setAttribute("customer", customer);
+
+			} catch (JsysException e) {
+				e.printStackTrace();
+			}
+		}
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("update.jsp");
 		requestDispatcher.forward(request, response);
 	}
 
@@ -29,7 +42,8 @@ public class UpdateCustomer2 extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
-		String nextPage = "confirm.jsp";
+		String buttonId = request.getParameter("button");
+		String nextPage = "confirmation.jsp";
 
 		String customerCode = request.getParameter("customerCode");
 		String customerName = request.getParameter("customerName");
@@ -43,20 +57,32 @@ public class UpdateCustomer2 extends HttpServlet {
 			discountRate = Integer.parseInt(sDiscountRate);
 		}
 
-		try {
-			CustomerDao customerDao = new CustomerDao();
-			Customer customer = new Customer(customerCode, customerName, customerTelno, customerPostalcode,
-					customerAddress,
-					discountRate, false);
-			System.out.println(customer.toString());
-			customerDao.registerCustomer(customer);
-		} catch (JsysException e) {
-			String message = e.getMessage();
-			request.setAttribute("message", message);
-			request.setAttribute("error", "true");
+		switch (buttonId) {
+		case "input":
+			request.setAttribute("customerCode", customerCode);
+			nextPage = "updateConfirmation.jsp";
+			break;
+		case "update":
+			try {
+				CustomerDao customerDao = new CustomerDao();
+				Customer customer = new Customer(customerCode, customerName, customerTelno, customerPostalcode,
+						customerAddress,
+						discountRate, false);
+				System.out.println(customer.toString());
+				customerDao.updateCustomer(customer);
+			} catch (JsysException e) {
+				String message = e.getMessage();
+				request.setAttribute("message", message);
+				request.setAttribute("error", "true");
+			}
+			request.setAttribute("customerCode", customerCode);
+			nextPage = "complete.jsp";
+
+			break;
 		}
 
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher(nextPage);
 		requestDispatcher.forward(request, response);
 	}
+
 }

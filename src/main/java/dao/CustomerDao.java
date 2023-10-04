@@ -151,7 +151,7 @@ public class CustomerDao extends BaseDao {
 		}
 	}
 
-	public void registerCustomer(Customer customer) throws JsysException {
+	public String registerCustomer(Customer customer) throws JsysException {
 		String num = generateCustomerCode();
 
 		try {
@@ -172,6 +172,7 @@ public class CustomerDao extends BaseDao {
 		} finally {
 			close();
 		}
+		return num;
 	}
 
 	public void registerCustomer(String customerCode, String customerName, String customerTelno,

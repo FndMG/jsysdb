@@ -27,9 +27,10 @@ public class RegisterCustomer extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		String buttonId = request.getParameter("button");
-		String nextPage = "confirm.jsp";
+		String nextPage = "confirmation.jsp";
 
 		String customerCode = request.getParameter("customerCode");
 		String customerName = request.getParameter("customerName");
@@ -45,22 +46,23 @@ public class RegisterCustomer extends HttpServlet {
 
 		switch (buttonId) {
 		case "input":
-			nextPage = "confirm.jsp";
+			nextPage = "confirmation.jsp";
 			break;
+			
 		case "register":
 			try {
 				CustomerDao customerDao = new CustomerDao();
 				Customer customer = new Customer(customerCode, customerName, customerTelno, customerPostalcode,
 						customerAddress,
 						discountRate, false);
-				System.out.println(customer.toString());
-				customerDao.registerCustomer(customer);
+				customerCode = customerDao.registerCustomer(customer);
+				request.setAttribute("customerCode", customerCode);
 			} catch (JsysException e) {
 				String message = e.getMessage();
 				request.setAttribute("message", message);
 				request.setAttribute("error", "true");
 			}
-			nextPage = "result.jsp";
+			nextPage = "complete.jsp";
 			break;
 		}
 

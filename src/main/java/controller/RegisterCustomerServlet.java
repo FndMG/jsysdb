@@ -17,7 +17,7 @@ import model.Customer;
  * Servlet implementation class RegisterCustomer
  */
 @WebServlet("/register_customer")
-public class RegisterCustomer extends HttpServlet {
+public class RegisterCustomerServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

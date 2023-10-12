@@ -53,12 +53,20 @@ public class UpdateCustomerServlet extends HttpServlet {
 		String sDiscountRate = request.getParameter("discountRate");
 
 		int discountRate = 0;
-		if (!sDiscountRate.isEmpty()) {
-			discountRate = Integer.parseInt(sDiscountRate);
+		if (sDiscountRate != null && !sDiscountRate.isEmpty()) {
+			try {
+				discountRate = Integer.parseInt(sDiscountRate);
+			} catch (NumberFormatException e) {
+				discountRate = 0;
+			}
 		}
 
 		switch (buttonId) {
 		case "input":
+			request.setAttribute("button", "update");
+			request.setAttribute("buttonName", "変更する");
+			request.setAttribute("heading", "得意先変更確認画面");
+			request.setAttribute("attention", "以下の内容で変更します。よろしいですか。");
 			request.setAttribute("customerCode", customerCode);
 			nextPage = "updateConfirmation.jsp";
 			break;
@@ -78,6 +86,32 @@ public class UpdateCustomerServlet extends HttpServlet {
 			request.setAttribute("customerCode", customerCode);
 			nextPage = "complete.jsp";
 
+			break;
+			
+		case "delete":
+			request.setAttribute("button", "doDelete");
+			request.setAttribute("buttonName", "削除する");
+			request.setAttribute("heading", "得意先削除確認画面");
+			request.setAttribute("attention", "以下の内容を削除します。よろしいですか。");
+			request.setAttribute("customerCode", customerCode);
+			nextPage = "updateConfirmation.jsp";
+			break;
+			
+		case "doDelete":
+			String code = request.getParameter("customerCode");
+			if (code.isEmpty() || code.isBlank()) {
+				response.sendRedirect("index.html");
+			}
+
+			try {
+				CustomerDao customerDao = new CustomerDao();
+				customerDao.deleteCustomerByCode(code);
+			} catch (JsysException e) {
+				String message = e.getMessage();
+				request.setAttribute("message", message);
+				request.setAttribute("error", "true");
+			}
+			nextPage = "deleteComplete.jsp";
 			break;
 		}
 

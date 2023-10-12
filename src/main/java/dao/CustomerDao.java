@@ -186,7 +186,7 @@ public class CustomerDao extends BaseDao {
 
 		try {
 			ps = con.prepareStatement(updateSql);
-			
+
 			ps.setString(1, customer.getCustomerName());
 			ps.setString(2, customer.getCustomerTelno());
 			ps.setString(3, customer.getCustomerPostalcode());
@@ -255,6 +255,22 @@ public class CustomerDao extends BaseDao {
 			close();
 		}
 		return customer;
+	}
+
+	public void deleteCustomerByCode(String code) throws JsysException {
+		String sql = "UPDATE customer SET delete_flag = 1 WHERE customer_code = ?";
+
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setString(1, code);
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new JsysException("得意先の削除に失敗しました。");
+		} finally {
+			close();
+		}
 	}
 
 	public void resetCustomer() throws JsysException, SQLException {

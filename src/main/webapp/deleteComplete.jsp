@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${heading}</title>
+<title>得意先削除完了画面</title>
 
 <!-- Bootstrap CSS を読み込む -->
 <link rel="stylesheet"
@@ -12,25 +12,10 @@
 </head>
 <body>
 	<div class="container">
-		<h1 class="mt-4">${heading}</h1>
+		<h1 class="mt-4">得意先削除完了画面</h1>
 
-		<!-- サーブレットにフォームデータを送信する -->
-		<form action="update_customer" method="post">
-			<p class="mt-4">${attention}</p>
-			<table class="table">
-				<tr>
-					<td>得意先コード:</td>
-					<td>${customerCode}</td>
-					<input type="hidden" name="customerCode"
-						value="${param.customerCode}" readonly>
-				</tr>
-				<jsp:include page="customerTable.jsp" />
-			</table>
-
-			<a href="index.html" class="btn btn-secondary">キャンセル</a>
-			<button type="submit" class="btn btn-primary" name="button"
-				value="${button}">${buttonName}</button>
-		</form>
+		<p class="mt-4">削除しました！</p>
+		<a href="index.html" class="btn btn-secondary">topへ戻る</a>
 	</div>
 
 	<!-- Bootstrap JavaScript を読み込む -->

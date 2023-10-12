@@ -51,7 +51,9 @@
 			<button type="submit" name="button" value="input"
 				class="btn btn-primary">登録</button>
 		</form>
-
+    <div class="text-center">
+        <a href="index.html" class="btn btn-secondary mt-3">topへ戻る</a>
+    </div>
 	</div>
 
 	<!-- Bootstrap JavaScriptをリンク -->

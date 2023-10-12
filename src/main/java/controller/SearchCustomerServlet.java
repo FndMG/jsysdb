@@ -14,34 +14,42 @@ import dao.CustomerDao;
 import exception.JsysException;
 import model.Customer;
 
-@WebServlet("/list_customer")
-public class ListCustomer extends HttpServlet {
+
+
+
+
+
+
+
+@WebServlet("/search_customer")
+public class SearchCustomerServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
+		String searchName = request.getParameter("search");
 		String nextPage = "list_customer.jsp";
-		List<Customer> customerList = null;
 
-		try {
-			CustomerDao CustomerDao = new CustomerDao();
-			customerList = CustomerDao.findAllCustomer();
+		if (searchName == null) {
+			nextPage = "search.jsp";
+		} else {
+			try {
+				CustomerDao customerDao = new CustomerDao();
+				List<Customer> customerList = null;
 
-			request.setAttribute("customerList", customerList);
+				customerList = customerDao.findCustomer(searchName);
 
-		} catch (JsysException e) {
-			String message = e.getMessage();
-			request.setAttribute("message", message);
-			request.setAttribute("error", "true");
+				request.setAttribute("customerList", customerList);
+
+			} catch (JsysException e) {
+				String message = e.getMessage();
+				request.setAttribute("message", message);
+				request.setAttribute("error", "true");
+			}
 		}
 
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher(nextPage);
 		requestDispatcher.forward(request, response);
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doGet(request, response);
 	}
 
 }
